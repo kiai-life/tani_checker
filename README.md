@@ -78,3 +78,13 @@ tani_checker --name coins ./tsukuba/tani.toml
 ```
 
 のようにです。
+
+# ライセンス(LICENSE)
+
+MITライセンスのもと、公開・配布されます。
+
+This package released under [the MIT license](https://github.com/kiai-life/tani_checker/blob/master/LICENSE).
+
+---
+
+(c) 2022 Naoki Kaneko (a.k.a. "puripuri2100")
