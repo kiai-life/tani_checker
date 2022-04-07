@@ -33,10 +33,12 @@ jobs:
         uses: Swatinem/rust-cache@v1.3.0
 
       - name: install wasm-pack
-        uses: actions-rs/cargo@v1.0.3
-        with:
-          command: install
-          args: wasm-pack
+        run: |
+          wget "https://github.com/rustwasm/wasm-pack/releases/download/v0.10.2/wasm-pack-v0.10.2-x86_64-unknown-linux-musl.tar.gz"
+          tar zxvf wasm-pack-v0.10.2-x86_64-unknown-linux-musl.tar.gz
+          ls ./wasm-pack-v0.10.2-x86_64-unknown-linux-musl
+          install ./wasm-pack-v0.10.2-x86_64-unknown-linux-musl/wasm-pack /usr/local/bin/
+          wasm-pack --version
 
       - name: reviewdog / clippy
         uses: sksat/action-clippy@v0.1.0
