@@ -58,4 +58,4 @@ jobs:
           args: --all -- --check
 
       - name: wasm-pack
-        run: wasm-pack build
+        run: wasm-pack build --target web --dev
