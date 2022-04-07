@@ -32,6 +32,12 @@ jobs:
       - name: cache dependencies
         uses: Swatinem/rust-cache@v1.3.0
 
+      - name: install wasm-pack
+        uses: actions-rs/cargo@v1.0.3
+        with:
+          command: install
+          args: wasm-pack
+
       - name: reviewdog / clippy
         uses: sksat/action-clippy@v0.1.0
         with:
@@ -48,3 +54,6 @@ jobs:
         with:
           command: fmt
           args: --all -- --check
+
+      - name: wasm-pack
+        run: wasm-pack build
