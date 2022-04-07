@@ -1,3 +1,17 @@
+[![Build Status][ci-badge]][ci]
+[![source badge][source-badge]][source]
+[![license badge][license-badge]][license]
+[![rust 1.56.0+ badge]][rust 1.56.0+ link]
+
+[ci]: https://github.com/kiai-life/tani_checker/actions/workflows/rust.yml
+[ci-badge]: https://github.com/kiai-life/tani_checker/actions/workflows/rust.yml/badge.svg
+[source]: https://github.com/kiai-life/tani_checker
+[source-badge]: https://img.shields.io/badge/source-github-blue
+[license]: https://github.com/kiai-life/tani_checker/blob/master/LICENSE
+[license-badge]: https://img.shields.io/badge/license-MIT-blue
+[rust 1.56.0+ link]: https://blog.rust-lang.org/2021/10/21/Rust-1.56.0.html
+[rust 1.56.0+ badge]: https://img.shields.io/badge/rustc-1.56.0+-93450a
+
 # tani_checker
 
 筑波大学での単位数の計算を行います。
