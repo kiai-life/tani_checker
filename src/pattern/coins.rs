@@ -1,12 +1,26 @@
 use crate::config;
+use crate::pattern::{
+  msg_from_credits_data, msg_from_credits_info, Credits, CreditsData, CreditsInfo, CreditsPattern,
+};
 use anyhow::Result;
 use fancy_regex;
 use regex::Regex;
 
 pub fn check(config: &config::Config) -> Result<Vec<(String, String)>> {
-  let mut 専門必修実験 = (0, None);
-  let mut 専門必修卒業研究 = (0, None); // 卒研
-  let mut 専門必修専門語学 = (0, None); // 専門語学
+  let mut 専門必修実験 = CreditsInfo {
+    credits: 0.0,
+    pattern: CreditsPattern::Only(6.0),
+  };
+  let mut 専門必修卒業研究 = CreditsInfo {
+    // 卒研
+    credits: 0.0,
+    pattern: CreditsPattern::Only(6.0),
+  };
+  let mut 専門必修専門語学 = CreditsInfo {
+    // 専門語学
+    credits: 0.0,
+    pattern: CreditsPattern::Only(4.0),
+  };
   let mut 専門選択1 = 0.0;
   let mut 専門選択2 = 0.0;
   let mut 専門基礎必修 = 0;
@@ -25,16 +39,16 @@ pub fn check(config: &config::Config) -> Result<Vec<(String, String)>> {
   for class in config.class.iter() {
     let class_name = &*class.name;
     match class_name {
-      "ソフトウェアサイエンス実験" => 専門必修実験.0 += 3,
-      "ソフトウェアサイエンス実験B" => 専門必修実験.0 += 3,
-      "情報システム実験A" => 専門必修実験.0 += 3,
-      "情報システム実験B" => 専門必修実験.0 += 3,
-      "知能情報メディア実験A" => 専門必修実験.0 += 3,
-      "知能情報メディア実験B" => 専門必修実験.0 += 3,
-      "卒業研究A" => 専門必修卒業研究.0 += 3,
-      "卒業研究B" => 専門必修卒業研究.0 += 3,
-      "専門語学A" => 専門必修専門語学.0 += 3,
-      "専門語学B" => 専門必修専門語学.0 += 3,
+      "ソフトウェアサイエンス実験" => 専門必修実験.credits += 3.0,
+      "ソフトウェアサイエンス実験B" => 専門必修実験.credits += 3.0,
+      "情報システム実験A" => 専門必修実験.credits += 3.0,
+      "情報システム実験B" => 専門必修実験.credits += 3.0,
+      "知能情報メディア実験A" => 専門必修実験.credits += 3.0,
+      "知能情報メディア実験B" => 専門必修実験.credits += 3.0,
+      "卒業研究A" => 専門必修卒業研究.credits += 3.0,
+      "卒業研究B" => 専門必修卒業研究.credits += 3.0,
+      "専門語学A" => 専門必修専門語学.credits += 3.0,
+      "専門語学B" => 専門必修専門語学.credits += 3.0,
       "情報科学特別演習" => 専門選択2 += class.credits,
       "線形代数A" => 専門基礎必修 += 2,
       "線形代数B" => 専門基礎必修 += 2,
@@ -112,35 +126,45 @@ pub fn check(config: &config::Config) -> Result<Vec<(String, String)>> {
   }
   let mut lst = vec![];
   lst.push(("専門必修実験".to_string(), {
-    if 専門必修実験.0 > 6 {
-      専門必修実験.1 = Some(専門必修実験.0 - 6);
-      format!("{}({})/{}", 6, 専門必修実験.0, 6)
-    } else {
-      format!("{}/{}", 専門必修実験.0, 6)
-    }
+    msg_from_credits_info(&専門必修実験)
+    //if 専門必修実験.0 > 6 {
+    //  専門必修実験.1 = Some(専門必修実験.0 - 6);
+    //  format!("{}({})/{}", 6, 専門必修実験.0, 6)
+    //} else {
+    //  format!("{}/{}", 専門必修実験.0, 6)
+    //}
   }));
   lst.push((
     "専門必修卒業研究".to_string(),
-    if 専門必修卒業研究.0 > 6 {
-      専門必修卒業研究.1 = Some(専門必修卒業研究.0 - 6);
-      format!("{}({})/{}", 6, 専門必修卒業研究.0, 6)
-    } else {
-      format!("{}/{}", 専門必修卒業研究.0, 6)
-    },
+    msg_from_credits_info(&専門必修卒業研究)
+    //if 専門必修卒業研究.0 > 6 {
+    //  専門必修卒業研究.1 = Some(専門必修卒業研究.0 - 6);
+    //  format!("{}({})/{}", 6, 専門必修卒業研究.0, 6)
+    //} else {
+    //  format!("{}/{}", 専門必修卒業研究.0, 6)
+    //},
   ));
   lst.push((
     "専門必修専門語学".to_string(),
-    if 専門必修専門語学.0 > 4 {
-      専門必修専門語学.1 = Some(専門必修専門語学.0 - 4);
-      format!("{}({})/{}", 4, 専門必修専門語学.0, 4)
-    } else {
-      format!("{}/{}", 専門必修専門語学.0, 4)
-    },
+    msg_from_credits_info(&専門必修専門語学)
+    //if 専門必修専門語学.0 > 4 {
+    //  専門必修専門語学.1 = Some(専門必修専門語学.0 - 4);
+    //  format!("{}({})/{}", 4, 専門必修専門語学.0, 4)
+    //} else {
+    //  format!("{}/{}", 専門必修専門語学.0, 4)
+    //},
   ));
-  let 専門必修 = 専門必修実験.0 + 専門必修卒業研究.0 + 専門必修専門語学.0;
+  let 専門必修 = CreditsData {
+    credits_list: vec![
+      Credits::CreditsInfo(専門必修実験),
+      Credits::CreditsInfo(専門必修卒業研究),
+      Credits::CreditsInfo(専門必修専門語学),
+    ],
+    pattern: CreditsPattern::Only(16.0),
+  };
   lst.push((
     "----------- 専門必修".to_string(),
-    format!("{}/{}", 専門必修, 16),
+    msg_from_credits_data(&専門必修), //format!("{}/{}", 専門必修, 16),
   ));
   lst.push((
     "専門選択1（GB20, GB30, GB40から始まるもの）".to_string(),
