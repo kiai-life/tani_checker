@@ -56,19 +56,19 @@ cargo install --git "https://github.com/kiai-life/tani_checker.git"
 [[class]]
   id = "31HG122"
   name = "English Reading Skills I"
-  credits = 1.0
+  credits = 1
 
 
 [[class]]
   id = "GA18212"
   name = "プログラミング入門A"
-  credits = 2.0
+  credits = 2
   get = false
 ```
 
 - `id`: 教科コード
 - `name`: 授業タイトル
-- `credits`: 認定される単位（小数）
+- `credits`: 認定される単位
 - `get`: 単位を取れたかどうかの真偽値（書かないと`true`）
 
 
