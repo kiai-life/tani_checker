@@ -72,6 +72,9 @@ cargo install --git "https://github.com/kiai-life/tani_checker.git"
 - `get`: 単位を取れたかどうかの真偽値（書かないと`true`）
 
 
+詳しい実例は[`examples/example.toml`](./examples/example.toml)を参照してください
+
+
 このTOMLファイルを使って
 
 ```sh
@@ -80,7 +83,7 @@ tani_checker --name <name> <toml file path>
 
 のように起動します。
 
-`<name>`には`coins`のような学類の名前を入れます。現在は`coins`蚤の対応です。
+`<name>`には`coins`のような学類の名前を入れます。現在は`coins`のみの対応です。
 
 `<toml file path>`には保存したTOMLファイルへのpathを与えます。
 
