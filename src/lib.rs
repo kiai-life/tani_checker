@@ -17,7 +17,7 @@ extern "C" {
 
 #[wasm_bindgen]
 pub fn tani(config: &str) {
-  log(&config);
+  log(config);
   let config: Config = toml::from_str(config)
     .with_context(|| "toml parser error")
     .unwrap();
