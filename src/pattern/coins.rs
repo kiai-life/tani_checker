@@ -103,7 +103,7 @@ pub fn check(config: &config::Config) -> Result<Vec<(String, String)>> {
           } else if re7_1.is_match(&class.name) {
             基礎体育 += 1
           } else if re7_2.is_match(&class.name) {
-            応用体育 += class.credits
+            応用体育 += 1
           } else if re8.is_match(&class.id) {
             基礎共通選択2 += class.credits
           } else if re9.is_match(&class.id) {
@@ -198,7 +198,9 @@ pub fn check(config: &config::Config) -> Result<Vec<(String, String)>> {
   if 基礎体育 == 2 {
     基礎共通必修体育 += 1
   }
-  基礎共通必修体育 += 応用体育;
+  if 応用体育 == 2 {
+    基礎共通必修体育 += 1
+  }
   lst.push((
     "基礎共通必修体育".to_string(),
     format!("{}/{}", 基礎共通必修体育, "2"),
