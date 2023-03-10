@@ -7,23 +7,28 @@ pub fn check(config: &config::Config) -> Result<Vec<(String, String)>> {
   let mut 専門必修実験 = 0;
   let mut 専門必修卒業研究 = 0; // 卒研
   let mut 専門必修専門語学 = 0; // 専門語学
-  let mut 専門選択1 = 0.0;
-  let mut 専門選択2 = 0.0;
+  let mut 専門選択1 = 0;
+  let mut 専門選択2 = 0;
   let mut 専門基礎必修 = 0;
-  let mut 専門基礎選択1 = 0.0; // 確率論など
-  let mut 専門基礎選択2 = 0.0; // Computer Science in English
-  let mut 専門基礎選択3 = 0.0; // GB1から始まるもの
-  let mut 専門基礎選択4 = 0.0; // GA1から始まるもの
+  let mut 専門基礎選択1 = 0; // 確率論など
+  let mut 専門基礎選択2 = 0; // Computer Science in English
+  let mut 専門基礎選択3 = 0; // GB1から始まるもの
+  let mut 専門基礎選択4 = 0; // GA1から始まるもの
   let mut 基礎共通必修総合科目 = 0;
-  let mut 基礎共通必修体育 = 0.0;
-  let mut 基礎共通必修外国語 = 0.0;
-  let mut 基礎共通必修情報 = 0.0;
-  let mut 基礎共通選択1 = 0.0; // 総合科目・学士基盤科目
-  let mut 基礎共通選択2 = 0.0; // 体育・外国語・国語・芸術
-  let mut 基礎関連選択1 = 0.0; // 文系科目
-  let mut 基礎関連選択2 = 0.0; // 理系科目
+  let mut 基礎体育 = 0;
+  let mut 応用体育 = 0;
+  let mut 基礎共通必修体育 = 0;
+  let mut 基礎共通必修外国語 = 0;
+  let mut 基礎共通必修情報 = 0;
+  let mut 基礎共通選択1 = 0; // 総合科目・学士基盤科目
+  let mut 基礎共通選択2 = 0; // 体育・外国語・国語・芸術
+  let mut 基礎関連選択1 = 0; // 文系科目
+  let mut 基礎関連選択2 = 0; // 理系科目
   for class in config.class.iter() {
-    if let Some(true) = class.get {
+    if let Some(false) = class.get {
+      // 落単
+      // 深く反省してほしい
+    } else {
       let class_name = &*class.name;
       match class_name {
         "ソフトウェアサイエンス実験" => 専門必修実験 += 3,
@@ -67,8 +72,10 @@ pub fn check(config: &config::Config) -> Result<Vec<(String, String)>> {
           let re4 = Regex::new("^GB1.+$").unwrap();
           let re5 = Regex::new("^GA1.+$").unwrap();
           let re6 = Regex::new("^1.+$").unwrap();
-          // 必修体育
-          let re7 = Regex::new("^2[1-7]{1}.+$").unwrap();
+          // 基礎体育
+          let re7_1 = Regex::new("^基礎体育.+$").unwrap();
+          // 応用体育
+          let re7_2 = Regex::new("^応用体育.+$").unwrap();
           // 選択体育
           let re8 = Regex::new("^2.+$").unwrap();
           // 必修英語（雑）
@@ -93,8 +100,10 @@ pub fn check(config: &config::Config) -> Result<Vec<(String, String)>> {
             専門基礎選択4 += class.credits
           } else if re6.is_match(&class.id) {
             基礎共通選択1 += class.credits
-          } else if re7.is_match(&class.id) {
-            基礎共通必修体育 += class.credits
+          } else if re7_1.is_match(&class.name) {
+            基礎体育 += 1
+          } else if re7_2.is_match(&class.name) {
+            応用体育 += class.credits
           } else if re8.is_match(&class.id) {
             基礎共通選択2 += class.credits
           } else if re9.is_match(&class.id) {
@@ -139,11 +148,17 @@ pub fn check(config: &config::Config) -> Result<Vec<(String, String)>> {
     "専門選択2（GB2, GB3, GB4, GA4からはじまるものと特別演習）".to_string(),
     format!("{}/{}", 専門選択2, "0～18"),
   ));
-  let 専門選択 = (専門選択1 + 専門選択2) as i32;
+  if 専門選択2 > 18 {
+    専門選択2 = 18
+  }
+  let mut 専門選択 = 専門選択1 + 専門選択2;
   lst.push((
     "----------- 専門選択".to_string(),
     format!("{}/{}", 専門選択, 34),
   ));
+  if 専門選択 > 34 {
+    専門選択 = 34
+  }
   lst.push((
     "専門基礎必修".to_string(),
     format!("{}/{}", 専門基礎必修, 26),
@@ -168,15 +183,22 @@ pub fn check(config: &config::Config) -> Result<Vec<(String, String)>> {
     "専門基礎選択4（GA1から始まるもの）".to_string(),
     format!("{}/{}", 専門基礎選択4, "8～"),
   ));
-  let 専門基礎選択 = (専門基礎選択1 + 専門基礎選択2 + 専門基礎選択3 + 専門基礎選択4) as i32;
+  let mut 専門基礎選択 = 専門基礎選択1 + 専門基礎選択2 + 専門基礎選択3 + 専門基礎選択4;
   lst.push((
     "----------- 専門基礎選択".to_string(),
     format!("{}/{}", 専門基礎選択, 26),
   ));
+  if 専門基礎選択 > 26 {
+    専門基礎選択 = 26
+  }
   lst.push((
     "基礎共通必修総合科目".to_string(),
     format!("{}/{}", 基礎共通必修総合科目, "2"),
   ));
+  if 基礎体育 == 2 {
+    基礎共通必修体育 += 1
+  }
+  基礎共通必修体育 += 応用体育;
   lst.push((
     "基礎共通必修体育".to_string(),
     format!("{}/{}", 基礎共通必修体育, "2"),
@@ -189,10 +211,8 @@ pub fn check(config: &config::Config) -> Result<Vec<(String, String)>> {
     "基礎共通必修情報".to_string(),
     format!("{}/{}", 基礎共通必修情報, "4"),
   ));
-  let 基礎共通必修 = 基礎共通必修総合科目
-    + (基礎共通必修体育 as i32)
-    + (基礎共通必修外国語 as i32)
-    + (基礎共通必修情報 as i32);
+  let 基礎共通必修 =
+    基礎共通必修総合科目 + 基礎共通必修体育 + 基礎共通必修外国語 + 基礎共通必修情報;
   lst.push((
     "----------- 基礎共通必修".to_string(),
     format!("{}/{}", 基礎共通必修, 12),
@@ -205,11 +225,17 @@ pub fn check(config: &config::Config) -> Result<Vec<(String, String)>> {
     "基礎共通選択2（国語・芸術など）".to_string(),
     format!("{}/{}", 基礎共通選択2, "0～4"),
   ));
-  let 基礎共通選択 = (基礎共通選択1 + 基礎共通選択2) as i32;
+  if 基礎共通選択2 > 4 {
+    基礎共通選択2 = 4
+  }
+  let mut 基礎共通選択 = 基礎共通選択1 + 基礎共通選択2;
   lst.push((
     "----------- 基礎共通選択".to_string(),
     format!("{}/{}", 基礎共通選択, "1～5"),
   ));
+  if 基礎共通選択 > 5 {
+    基礎共通選択 = 5
+  }
   lst.push((
     "基礎関連選択1（文系）".to_string(),
     format!("{}/{}", 基礎関連選択1, "6～"),
@@ -218,15 +244,24 @@ pub fn check(config: &config::Config) -> Result<Vec<(String, String)>> {
     "基礎関連選択2（理系）".to_string(),
     format!("{}/{}", 基礎関連選択2, "0～4"),
   ));
-  let 基礎関連選択 = (基礎関連選択1 + 基礎関連選択2) as i32;
+  if 基礎関連選択2 > 4 {
+    基礎関連選択2 = 4
+  }
+  let mut 基礎関連選択 = 基礎関連選択1 + 基礎関連選択2;
   lst.push((
     "----------- 基礎関連選択".to_string(),
     format!("{}/{}", 基礎関連選択, "6～10"),
   ));
+  if 基礎関連選択 > 10 {
+    基礎関連選択 = 10
+  }
   let 必修 = 専門必修 + 専門基礎必修 + 基礎共通必修;
   lst.push(("*** 必修".to_string(), format!("{}/{}", 必修, "54")));
-  let 選択: i32 = 専門選択 + 専門基礎選択 + 基礎共通選択 + 基礎関連選択;
+  let mut 選択 = 専門選択 + 専門基礎選択 + 基礎共通選択 + 基礎関連選択;
   lst.push(("*** 選択".to_string(), format!("{}/{}", 選択, "71")));
+  if 選択 > 71 {
+    選択 = 71
+  }
   lst.push((
     "!!!!! 全体合計 !!!!!".to_string(),
     format!("{}/{}", 必修 + 選択, "125"),
