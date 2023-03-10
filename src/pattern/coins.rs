@@ -31,7 +31,7 @@ pub fn check(config: &config::Config) -> Result<Vec<(String, String)>> {
     } else {
       let class_name = &*class.name;
       match class_name {
-        "ソフトウェアサイエンス実験" => 専門必修実験 += 3,
+        "ソフトウェアサイエンス実験A" => 専門必修実験 += 3,
         "ソフトウェアサイエンス実験B" => 専門必修実験 += 3,
         "情報システム実験A" => 専門必修実験 += 3,
         "情報システム実験B" => 専門必修実験 += 3,
