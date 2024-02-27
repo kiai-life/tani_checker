@@ -7,6 +7,22 @@ pub trait Credits {
   fn is_ok(&self) -> bool;
 }
 
+pub trait DynCredits: Credits {
+  fn clone_boxed(&self) -> Box<dyn DynCredits>;
+}
+
+impl<T> DynCredits for T where T: Credits + Clone + 'static {
+  fn clone_boxed(&self) -> Box<dyn DynCredits> {
+    Box::new(Clone::clone(self))
+  }
+}
+
+impl Clone for Box<dyn DynCredits> {
+  fn clone(&self) -> Self {
+    self.clone_boxed()
+  }
+}
+
 #[derive(Clone, Debug)]
 pub struct CreditsInfo {
   pub name: String,
@@ -151,11 +167,11 @@ impl Credits for CreditsPE {
   }
 }
 
-//#[derive(Clone, Debug)]
+#[derive(Clone)]
 pub struct CreditsData {
   pub msg_prefix: String,
   pub name: String,
-  pub credits_list: Vec<Box<dyn Credits>>,
+  pub credits_list: Vec<Box<dyn DynCredits>>,
   pub pattern: CreditsPattern,
 }
 

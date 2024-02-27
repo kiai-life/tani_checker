@@ -148,13 +148,13 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
     msg_prefix: "--------- ".to_string(),
     name: "専門必修".to_string(),
     credits_list: vec![
-      Box::new(専門必修実験.clone()),
-      Box::new(専門必修卒業研究.clone()),
-      Box::new(専門必修専門語学.clone()),
+      Box::new(専門必修実験),
+      Box::new(専門必修卒業研究),
+      Box::new(専門必修専門語学),
     ],
     pattern: CreditsPattern::Only(16),
   };
-  lst.push(Box::new(専門必修));
+  lst.push(Box::new(専門必修.clone()));
 
   lst.push(Box::new(専門選択1.clone()));
   lst.push(Box::new(専門選択2.clone()));
@@ -162,10 +162,10 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
   let 専門選択 = CreditsData {
     msg_prefix: "--------- ".to_string(),
     name: "専門選択".to_string(),
-    credits_list: vec![Box::new(専門選択1.clone()), Box::new(専門選択2.clone())],
+    credits_list: vec![Box::new(専門選択1), Box::new(専門選択2)],
     pattern: CreditsPattern::Only(34),
   };
-  lst.push(Box::new(専門選択));
+  lst.push(Box::new(専門選択.clone()));
 
   lst.push(Box::new(専門基礎必修.clone()));
 
@@ -178,39 +178,38 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
     msg_prefix: "--------- ".to_string(),
     name: "専門基礎選択".to_string(),
     credits_list: vec![
-      Box::new(専門基礎選択1.clone()),
-      Box::new(専門基礎選択2.clone()),
-      Box::new(専門基礎選択3.clone()),
-      Box::new(専門基礎選択4.clone()),
+      Box::new(専門基礎選択1),
+      Box::new(専門基礎選択2),
+      Box::new(専門基礎選択3),
+      Box::new(専門基礎選択4),
     ],
     pattern: CreditsPattern::Only(26),
   };
-  lst.push(Box::new(専門基礎選択));
+  lst.push(Box::new(専門基礎選択.clone()));
 
   lst.push(Box::new(基礎共通必修総合科目.clone()));
   lst.push(Box::new(基礎共通必修外国語.clone()));
   let 基礎共通必修体育 = CreditsData {
     msg_prefix: String::new(),
     name: "基礎共通必修体育".to_string(),
-    credits_list: vec![Box::new(基礎体育.clone()), Box::new(応用体育.clone())],
+    credits_list: vec![Box::new(基礎体育), Box::new(応用体育)],
     pattern: CreditsPattern::Only(2),
   };
-  lst.push(Box::new(基礎共通必修体育));
+  lst.push(Box::new(基礎共通必修体育.clone()));
   lst.push(Box::new(基礎共通必修情報.clone()));
 
   let 基礎共通必修 = CreditsData {
     msg_prefix: "--------- ".to_string(),
     name: "基礎共通必修".to_string(),
     credits_list: vec![
-      Box::new(基礎共通必修総合科目.clone()),
-      Box::new(基礎体育.clone()),
-      Box::new(応用体育.clone()),
-      Box::new(基礎共通必修外国語.clone()),
-      Box::new(基礎共通必修情報.clone()),
+      Box::new(基礎共通必修総合科目),
+      Box::new(基礎共通必修体育),
+      Box::new(基礎共通必修外国語),
+      Box::new(基礎共通必修情報),
     ],
     pattern: CreditsPattern::Only(12),
   };
-  lst.push(Box::new(基礎共通必修));
+  lst.push(Box::new(基礎共通必修.clone()));
 
   lst.push(Box::new(基礎共通選択1.clone()));
   lst.push(Box::new(基礎共通選択2.clone()));
@@ -219,12 +218,12 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
     msg_prefix: "--------- ".to_string(),
     name: "基礎共通選択".to_string(),
     credits_list: vec![
-      Box::new(基礎共通選択1.clone()),
-      Box::new(基礎共通選択2.clone()),
+      Box::new(基礎共通選択1),
+      Box::new(基礎共通選択2),
     ],
     pattern: CreditsPattern::Range(1, 5),
   };
-  lst.push(Box::new(基礎共通選択));
+  lst.push(Box::new(基礎共通選択.clone()));
 
   lst.push(Box::new(基礎関連選択1.clone()));
   lst.push(Box::new(基礎関連選択2.clone()));
@@ -233,73 +232,54 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
     msg_prefix: "--------- ".to_string(),
     name: "基礎関連選択".to_string(),
     credits_list: vec![
-      Box::new(基礎関連選択1.clone()),
-      Box::new(基礎関連選択2.clone()),
+      Box::new(基礎関連選択1),
+      Box::new(基礎関連選択2),
     ],
     pattern: CreditsPattern::Range(6, 10),
   };
-  lst.push(Box::new(基礎関連選択));
+  lst.push(Box::new(基礎関連選択.clone()));
+
+  let 基礎選択: CreditsData = CreditsData {
+    msg_prefix: "--------- ".to_string(),
+    name: "基礎選択".to_string(),
+    credits_list: vec![
+      Box::new(基礎共通選択),
+      Box::new(基礎関連選択),
+    ],
+    pattern: CreditsPattern::Top(11),
+  };
+  //lst.push(Box::new(基礎選択.clone()));
 
   let 必修 = CreditsData {
     msg_prefix: "***** ".to_string(),
     name: "必修".to_string(),
     credits_list: vec![
-      Box::new(専門必修実験.clone()),
-      Box::new(専門必修卒業研究.clone()),
-      Box::new(専門必修専門語学.clone()),
-      Box::new(専門基礎必修.clone()),
-      Box::new(基礎共通必修総合科目.clone()),
-      Box::new(基礎体育.clone()),
-      Box::new(応用体育.clone()),
-      Box::new(基礎共通必修外国語.clone()),
-      Box::new(基礎共通必修情報.clone()),
+      Box::new(専門必修),
+      Box::new(専門基礎必修),
+      Box::new(基礎共通必修),
     ],
     pattern: CreditsPattern::Only(54),
   };
-  lst.push(Box::new(必修));
+  lst.push(Box::new(必修.clone()));
 
   let 選択 = CreditsData {
     msg_prefix: "***** ".to_string(),
     name: "選択".to_string(),
     credits_list: vec![
-      Box::new(専門選択1.clone()),
-      Box::new(専門選択2.clone()),
-      Box::new(専門基礎選択1.clone()),
-      Box::new(専門基礎選択2.clone()),
-      Box::new(専門基礎選択3.clone()),
-      Box::new(専門基礎選択4.clone()),
-      Box::new(基礎共通選択1.clone()),
-      Box::new(基礎共通選択2.clone()),
-      Box::new(基礎関連選択1.clone()),
-      Box::new(基礎関連選択2.clone()),
+      Box::new(専門選択),
+      Box::new(専門基礎選択),
+      Box::new(基礎選択),
     ],
     pattern: CreditsPattern::Only(71),
   };
-  lst.push(Box::new(選択));
+  lst.push(Box::new(選択.clone()));
 
   let 卒業 = CreditsData {
     msg_prefix: "!!!!!!!!!! ".to_string(),
     name: "全体".to_string(),
     credits_list: vec![
-      Box::new(専門必修実験),
-      Box::new(専門必修卒業研究),
-      Box::new(専門必修専門語学),
-      Box::new(専門基礎必修),
-      Box::new(基礎共通必修総合科目),
-      Box::new(基礎体育),
-      Box::new(応用体育),
-      Box::new(基礎共通必修外国語),
-      Box::new(基礎共通必修情報),
-      Box::new(専門選択1),
-      Box::new(専門選択2),
-      Box::new(専門基礎選択1),
-      Box::new(専門基礎選択2),
-      Box::new(専門基礎選択3),
-      Box::new(専門基礎選択4),
-      Box::new(基礎共通選択1),
-      Box::new(基礎共通選択2),
-      Box::new(基礎関連選択1),
-      Box::new(基礎関連選択2),
+      Box::new(必修),
+      Box::new(選択),
     ],
     pattern: CreditsPattern::Only(125),
   };
