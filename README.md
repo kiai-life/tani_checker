@@ -9,8 +9,8 @@
 [source-badge]: https://img.shields.io/badge/source-github-blue
 [license]: https://github.com/kiai-life/tani_checker/blob/master/LICENSE
 [license-badge]: https://img.shields.io/badge/license-MIT-blue
-[rust 1.56.0+ link]: https://blog.rust-lang.org/2021/10/21/Rust-1.56.0.html
-[rust 1.56.0+ badge]: https://img.shields.io/badge/rustc-1.56.0+-93450a
+[rust 1.56.0+ link]: https://blog.rust-lang.org/2021/10/21/Rust-1.58.1.html
+[rust 1.56.0+ badge]: https://img.shields.io/badge/rustc-1.58.1+-93450a
 
 # tani_checker
 
@@ -83,7 +83,7 @@ tani_checker --name <name> <toml file path>
 
 のように起動します。
 
-`<name>`には`coins`のような学類の名前を入れます。現在は`coins`のみの対応です。
+`<name>`には`coins22`のような学類の名前を入れます。現在は`coins22`のみの対応です。
 
 `<toml file path>`には保存したTOMLファイルへのpathを与えます。
 
@@ -91,7 +91,7 @@ tani_checker --name <name> <toml file path>
 例えば
 
 ```sh
-tani_checker --name coins ./tsukuba/tani.toml
+tani_checker --name coins22 ./tsukuba/tani.toml
 ```
 
 のようにです。
