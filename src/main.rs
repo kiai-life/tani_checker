@@ -25,8 +25,8 @@ fn main() -> Result<()> {
   match &*args.name {
     "coins" => {
       let v = pattern::coins::check(&config)?;
-      for (name, msg) in v.iter() {
-        println!("{}: {}", name, msg)
+      for c in v.iter() {
+        println!("{}", &*c.msg())
       }
       Ok(())
     }

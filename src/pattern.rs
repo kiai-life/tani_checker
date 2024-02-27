@@ -1,33 +1,217 @@
 pub mod coins;
 
-#[derive(Clone, Copy, PartialEq, Debug)]
+pub trait Credits {
+  fn msg(&self) -> String;
+  fn credits(&self) -> usize;
+  fn all_credits(&self) -> usize;
+  fn is_ok(&self) -> bool;
+}
+
+#[derive(Clone, Debug)]
 pub struct CreditsInfo {
-  pub credits: f32,
+  pub name: String,
+  pub credits: usize,
   pub pattern: CreditsPattern,
 }
 
-#[derive(Clone, Copy, PartialEq, Debug)]
+impl CreditsInfo {
+  pub fn new(name: &str, pat: CreditsPattern) -> Self {
+    CreditsInfo {
+      name: name.to_string(),
+      credits: 0,
+      pattern: pat,
+    }
+  }
+
+  pub fn add(&mut self, n: usize) {
+    self.credits += n
+  }
+}
+
+impl Credits for CreditsInfo {
+  fn all_credits(&self) -> usize {
+    self.credits
+  }
+  fn credits(&self) -> usize {
+    match self.pattern {
+      CreditsPattern::Range(_, n) => {
+        if n < self.credits {
+          n
+        } else {
+          self.credits
+        }
+      }
+      CreditsPattern::Top(n) => {
+        if n < self.credits {
+          n
+        } else {
+          self.credits
+        }
+      }
+      CreditsPattern::Only(n) => {
+        if n < self.credits {
+          n
+        } else {
+          self.credits
+        }
+      }
+      CreditsPattern::Bottom(_) => self.credits,
+    }
+  }
+  fn is_ok(&self) -> bool {
+    match self.pattern {
+      CreditsPattern::Range(n, _) => n <= self.credits,
+      CreditsPattern::Top(_) => true,
+      CreditsPattern::Only(n) => n <= self.credits,
+      CreditsPattern::Bottom(n) => n <= self.credits,
+    }
+  }
+  fn msg(&self) -> String {
+    format!(
+      "{} {}： {}({})/{}",
+      if self.is_ok() { '✅' } else { '❌' },
+      self.name,
+      self.credits(),
+      self.all_credits(),
+      self.pattern.to_string()
+    )
+  }
+}
+
+/// 単位のパターン
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum CreditsPattern {
-  Only(f32),
-  Width(f32, Option<f32>),
+  /// 単位数の指定
+  Only(usize),
+  /// 単位数の幅がある
+  Range(usize, usize),
+  /// 単位数の上限
+  Top(usize),
+  /// 単位数の下限
+  Bottom(usize),
 }
 
-#[derive(Clone, PartialEq, Debug)]
-pub enum Credits {
-  CreditsData(CreditsData),
-  CreditsInfo(CreditsInfo),
+impl ToString for CreditsPattern {
+  fn to_string(&self) -> String {
+    match self {
+      CreditsPattern::Only(n) => n.to_string(),
+      CreditsPattern::Range(n, m) => {
+        format!("{n}～{m}")
+      }
+      CreditsPattern::Top(n) => {
+        format!("～{n}")
+      }
+      CreditsPattern::Bottom(n) => {
+        format!("{n}～")
+      }
+    }
+  }
 }
 
-#[derive(Clone, PartialEq, Debug)]
+/// 体育の単位
+#[derive(Clone, Debug)]
+pub struct CreditsPE {
+  pub name: String,
+  pub credits: usize,
+}
+
+impl CreditsPE {
+  fn new(name: &str) -> Self {
+    CreditsPE {
+      name: name.to_string(),
+      credits: 0,
+    }
+  }
+  fn get(&mut self) {
+    self.credits += 1;
+  }
+}
+
+impl Credits for CreditsPE {
+  fn all_credits(&self) -> usize {
+    self.credits()
+  }
+  fn credits(&self) -> usize {
+    if self.is_ok() {
+      1
+    } else {
+      0
+    }
+  }
+  fn is_ok(&self) -> bool {
+    self.credits == 2
+  }
+  fn msg(&self) -> String {
+    format!(
+      "{} {}：{}/1",
+      if self.is_ok() { '✅' } else { '❌' },
+      self.name,
+      self.credits()
+    )
+  }
+}
+
+//#[derive(Clone, Debug)]
 pub struct CreditsData {
-  pub credits_list: Vec<Credits>,
+  pub msg_prefix: String,
+  pub name: String,
+  pub credits_list: Vec<Box<dyn Credits>>,
   pub pattern: CreditsPattern,
 }
 
-pub fn msg_from_credits_info(credits_info: &CreditsInfo) -> String {
-  String::new()
-}
+impl Credits for CreditsData {
+  fn all_credits(&self) -> usize {
+    self.credits_list.iter().map(|t| t.all_credits()).sum()
+  }
+  fn credits(&self) -> usize {
+    let credits = self.credits_list.iter().map(|t| t.credits()).sum();
+    match self.pattern {
+      CreditsPattern::Range(_, n) => {
+        if n < credits {
+          n
+        } else {
+          credits
+        }
+      }
+      CreditsPattern::Top(n) => {
+        if n < credits {
+          n
+        } else {
+          credits
+        }
+      }
+      CreditsPattern::Only(n) => {
+        if n < credits {
+          n
+        } else {
+          credits
+        }
+      }
+      CreditsPattern::Bottom(_) => credits,
+    }
+  }
 
-pub fn msg_from_credits_data(credits_data: &CreditsData) -> String {
-  String::new()
+  fn is_ok(&self) -> bool {
+    let credits = self.credits_list.iter().map(|t| t.credits()).sum();
+    let is_ok = self.credits_list.iter().all(|t| t.is_ok());
+    let b = match self.pattern {
+      CreditsPattern::Range(n, _) => n <= credits,
+      CreditsPattern::Top(_) => true,
+      CreditsPattern::Only(n) => n <= credits,
+      CreditsPattern::Bottom(n) => n <= credits,
+    };
+    is_ok && b
+  }
+
+  fn msg(&self) -> String {
+    format!(
+      "{}{} {}： {}({})/{}",
+      self.msg_prefix,
+      if self.is_ok() { '✅' } else { '❌' },
+      self.name,
+      self.credits(),
+      self.all_credits(),
+      self.pattern.to_string()
+    )
+  }
 }
