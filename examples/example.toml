@@ -1,0 +1,179 @@
+### 1年春
+
+[[class]]
+  id = "1118202"
+  name = "ファーストイヤーセミナー"
+  credits = 1
+
+
+
+[[class]]
+  id = "1222021"
+  name = "セルフマネジメント・ケア"
+  credits = 1
+
+
+[[class]]
+  id = "1227581"
+  name = "学問への誘い"
+  credits = 1
+
+[[class]]
+  id = "2158163"
+  name = "基礎体育アスレティックトレーニング（春）"
+  credits = 0
+
+
+[[class]]
+  id = "31HG112"
+  name = "English Reading Skills I"
+  credits = 1
+
+[[class]]
+  id = "31JG112"
+  name = "English Presentation Skills I"
+  credits = 1
+
+[[class]]
+  id = "4008011"
+  name = "芸術(現代アート入門)"
+  credits = 1
+
+[[class]]
+  id = "5108071"
+  name = "国語I"
+  credits = 1
+
+
+[[class]]
+  id = "6124101"
+  name = "情報リテラシー(講義)"
+  credits = 1
+
+[[class]]
+  id = "6424202"
+  name = "情報リテラシー(演習)"
+  credits = 1
+
+
+[[class]]
+  id = "BB20001"
+  name = "法学概論"
+  credits = 2
+  get = false
+
+
+[[class]]
+  id = "GA12111"
+  name = "知能と情報科学"
+  credits = 1
+
+[[class]]
+  id = "GA12201"
+  name = "計算と情報科学"
+  credits = 1
+
+[[class]]
+  id = "GA14111"
+  name = "知識情報概論"
+  credits = 1
+
+[[class]]
+  id = "GA14201"
+  name = "知識情報概論"
+  credits = 1
+
+[[class]]
+  id = "GA15111"
+  name = "情報数学A"
+  credits = 2
+
+[[class]]
+  id = "GA15211"
+  name = "線形代数A"
+  credits = 2
+
+[[class]]
+  id = "GB11601"
+  name = "確率論"
+  credits = 2
+
+
+
+### 1年秋
+
+[[class]]
+  id = "2160173"
+  name = "基礎体育（オンラインG２）（秋）"
+  credits = 0
+
+[[class]]
+  id = "31KG112"
+  name = "English Reading Skills II"
+  credits = 1
+
+[[class]]
+  id = "31LG112"
+  name = "English Presentation Skills II"
+  credits = 1
+
+[[class]]
+  id = "5208021"
+  name = "国語II"
+  credits = 1
+
+[[class]]
+  id = "6524202"
+  name = "データサイエンス"
+  credits = 2
+
+[[class]]
+  id = "BB05021"
+  name = "法学の最前線"
+  credits = 1
+
+[[class]]
+  id = "GA13501"
+  name = "コンテンツ入門"
+  credits = 2
+
+[[class]]
+  id = "GA15311"
+  name = "微分積分A"
+  credits = 2
+
+[[class]]
+  id = "GA18212"
+  name = "プログラミング入門A"
+  credits = 2
+
+[[class]]
+  id = "GA18312"
+  name = "プログラミング入門B"
+  credits = 1
+
+[[class]]
+  id = "GB11514"
+  name = "シミュレーション物理"
+  credits = 1
+
+[[class]]
+  id = "GB13024"
+  name = "オブジェクト指向プログラミング"
+  credits = 2
+
+[[class]]
+  id = "GB13332"
+  name = "情報科学特別演習"
+  credits = 2
+
+[[class]]
+  id = "GB27001"
+  name = "ソフトウェアサイエンス特別講義A"
+  credits = 1
+
+[[class]]
+  id = "YAX2031"
+  name = "芸術と社会"
+  credits = 1
+

@@ -3,7 +3,6 @@ use crate::pattern::{Credits, CreditsData, CreditsInfo, CreditsPattern};
 use anyhow::Result;
 use fancy_regex;
 use regex::Regex;
-
 use super::CreditsPE;
 
 pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {

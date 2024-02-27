@@ -13,7 +13,7 @@ pub struct Config {
 pub struct Class {
   pub id: String,
   pub name: String,
-  pub credits: f32,
+  pub credits: usize,
   pub get: Option<bool>,
 }
 

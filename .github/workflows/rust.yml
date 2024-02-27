@@ -1,0 +1,61 @@
+name: Rust
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - '.github/workflows/rust.yml'
+
+env:
+  CARGO_INCREMENTAL: 0
+
+jobs:
+  rust:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions-rs/toolchain@v1.0.7
+        with:
+          toolchain: stable
+          components: clippy, rustfmt
+          override: true
+
+      - name: cache dependencies
+        uses: Swatinem/rust-cache@v1.3.0
+
+      - name: install wasm-pack
+        run: |
+          wget "https://github.com/rustwasm/wasm-pack/releases/download/v0.10.2/wasm-pack-v0.10.2-x86_64-unknown-linux-musl.tar.gz"
+          tar zxvf wasm-pack-v0.10.2-x86_64-unknown-linux-musl.tar.gz
+          ls ./wasm-pack-v0.10.2-x86_64-unknown-linux-musl
+          install ./wasm-pack-v0.10.2-x86_64-unknown-linux-musl/wasm-pack /usr/local/bin/
+          wasm-pack --version
+
+      - name: reviewdog / clippy
+        uses: sksat/action-clippy@v0.1.0
+        with:
+          reporter: github-pr-review
+          clippy_flags: --all-features
+
+      - name: unit test
+        uses: actions-rs/cargo@v1.0.3
+        with:
+          command: test
+
+      - name: check format
+        uses: actions-rs/cargo@v1.0.3
+        with:
+          command: fmt
+          args: --all -- --check
+
+      - name: wasm-pack
+        run: wasm-pack build --target web --dev
