@@ -1,4 +1,4 @@
-pub mod coins;
+pub mod coins22;
 
 pub trait Credits {
   fn msg(&self) -> String;

@@ -8,7 +8,7 @@ pub mod pattern;
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
 struct Args {
-  /// ex: "coins"
+  /// ex: "coins22"
   #[clap(short, long)]
   name: String,
 
@@ -23,8 +23,8 @@ fn main() -> Result<()> {
   let config = config::make_config_data(&args.config)?;
 
   match &*args.name {
-    "coins" => {
-      let v = pattern::coins::check(&config)?;
+    "coins22" => {
+      let v = pattern::coins22::check(&config)?;
       for c in v.iter() {
         println!("{}", &*c.msg())
       }

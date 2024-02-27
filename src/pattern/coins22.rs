@@ -1,9 +1,8 @@
 use crate::config;
-use crate::pattern::{Credits, CreditsData, CreditsInfo, CreditsPattern};
+use crate::pattern::{Credits, CreditsData, CreditsInfo, CreditsPE, CreditsPattern};
 use anyhow::Result;
 use fancy_regex;
 use regex::Regex;
-use super::CreditsPE;
 
 pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
   let mut 専門必修実験 = CreditsInfo::new("専門必修実験", CreditsPattern::Only(6));
@@ -60,7 +59,7 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
       "卒業研究B" => 専門必修卒業研究.add(3),
       "専門語学A" => 専門必修専門語学.add(3),
       "専門語学B" => 専門必修専門語学.add(3),
-      "情報科学特別演習" => 専門選択2.add(class.credits as usize),
+      "情報科学特別演習" => 専門選択2.add(class.credits),
       "線形代数A" => 専門基礎必修.add(2),
       "線形代数B" => 専門基礎必修.add(2),
       "微分積分A" => 専門基礎必修.add(2),
@@ -74,15 +73,15 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
       "データ構造とアルゴリズム実験" => 専門基礎必修.add(2),
       "論理回路" => 専門基礎必修.add(2),
       "論理回路演習" => 専門基礎必修.add(2),
-      "確率論" => 専門基礎選択1.add(class.credits as usize),
-      "統計学" => 専門基礎選択1.add(class.credits as usize),
-      "数値計算法" => 専門基礎選択1.add(class.credits as usize),
-      "論理と形式化" => 専門基礎選択1.add(class.credits as usize),
-      "論理システム" => 専門基礎選択1.add(class.credits as usize),
-      "論理システム演習" => 専門基礎選択1.add(class.credits as usize),
-      "Computer Science in English A" => 専門基礎選択2.add(class.credits as usize),
-      "Computer Science in English B" => 専門基礎選択2.add(class.credits as usize),
-      "学問への誘い" => 基礎共通必修総合科目.add(class.credits as usize),
+      "確率論" => 専門基礎選択1.add(class.credits),
+      "統計学" => 専門基礎選択1.add(class.credits),
+      "数値計算法" => 専門基礎選択1.add(class.credits),
+      "論理と形式化" => 専門基礎選択1.add(class.credits),
+      "論理システム" => 専門基礎選択1.add(class.credits),
+      "論理システム演習" => 専門基礎選択1.add(class.credits),
+      "Computer Science in English A" => 専門基礎選択2.add(class.credits),
+      "Computer Science in English B" => 専門基礎選択2.add(class.credits),
+      "学問への誘い" => 基礎共通必修総合科目.add(class.credits),
       "ファーストイヤーセミナー" => 基礎共通必修総合科目.add(1),
       _ => {
         let re1 = Regex::new("^GB(2|3|4)0.+$").unwrap();
@@ -108,15 +107,15 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
         let re21 = fancy_regex::Regex::new("^(?!(9|E|F|GC|GE|H).+$)").unwrap();
         let re22 = Regex::new("^(E|F|GC|GE|H).+$").unwrap();
         if re1.is_match(&class.id) {
-          専門選択1.add(class.credits as usize)
+          専門選択1.add(class.credits)
         } else if re2.is_match(&class.id) || re3.is_match(class_name) {
-          専門選択2.add(class.credits as usize)
+          専門選択2.add(class.credits)
         } else if re4.is_match(&class.id) {
-          専門基礎選択3.add(class.credits as usize)
+          専門基礎選択3.add(class.credits)
         } else if re5.is_match(&class.id) {
-          専門基礎選択4.add(class.credits as usize)
+          専門基礎選択4.add(class.credits)
         } else if re6.is_match(&class.id) {
-          基礎共通選択1.add(class.credits as usize)
+          基礎共通選択1.add(class.credits)
         } else if re7.is_match(&class.id) {
           if class.name.starts_with('基') {
             基礎体育.get()
@@ -125,17 +124,17 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
             応用体育.get()
           }
         } else if re8.is_match(&class.id) {
-          基礎共通選択2.add(class.credits as usize)
+          基礎共通選択2.add(class.credits)
         } else if re9.is_match(&class.id) {
-          基礎共通必修外国語.add(class.credits as usize)
+          基礎共通必修外国語.add(class.credits)
         } else if re10.is_match(&class.id) || re11.is_match(&class.id) || re12.is_match(&class.id) {
-          基礎共通選択2.add(class.credits as usize)
+          基礎共通選択2.add(class.credits)
         } else if re13.is_match(&class.id) {
-          基礎共通必修情報.add(class.credits as usize)
+          基礎共通必修情報.add(class.credits)
         } else if re21.is_match(&class.id)? {
-          基礎関連選択1.add(class.credits as usize)
+          基礎関連選択1.add(class.credits)
         } else if re22.is_match(&class.id) {
-          基礎関連選択2.add(class.credits as usize)
+          基礎関連選択2.add(class.credits)
         }
       }
     }

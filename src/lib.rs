@@ -22,9 +22,8 @@ pub fn tani(config: &str) {
     .with_context(|| "toml parser error")
     .unwrap();
 
-  let v = pattern::coins::check(&config).unwrap();
-  for (name, msg) in v.iter() {
-    let s = format!("{}: {}", name, msg);
-    log(&s);
+  let v = pattern::coins22::check(&config).unwrap();
+  for c in v.iter() {
+    log(&c.msg());
   }
 }
