@@ -11,7 +11,10 @@ pub trait DynCredits: Credits {
   fn clone_boxed(&self) -> Box<dyn DynCredits>;
 }
 
-impl<T> DynCredits for T where T: Credits + Clone + 'static {
+impl<T> DynCredits for T
+where
+  T: Credits + Clone + 'static,
+{
   fn clone_boxed(&self) -> Box<dyn DynCredits> {
     Box::new(Clone::clone(self))
   }

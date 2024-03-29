@@ -217,10 +217,7 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
   let 基礎共通選択 = CreditsData {
     msg_prefix: "--------- ".to_string(),
     name: "基礎共通選択".to_string(),
-    credits_list: vec![
-      Box::new(基礎共通選択1),
-      Box::new(基礎共通選択2),
-    ],
+    credits_list: vec![Box::new(基礎共通選択1), Box::new(基礎共通選択2)],
     pattern: CreditsPattern::Range(1, 5),
   };
   lst.push(Box::new(基礎共通選択.clone()));
@@ -231,10 +228,7 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
   let 基礎関連選択 = CreditsData {
     msg_prefix: "--------- ".to_string(),
     name: "基礎関連選択".to_string(),
-    credits_list: vec![
-      Box::new(基礎関連選択1),
-      Box::new(基礎関連選択2),
-    ],
+    credits_list: vec![Box::new(基礎関連選択1), Box::new(基礎関連選択2)],
     pattern: CreditsPattern::Range(6, 10),
   };
   lst.push(Box::new(基礎関連選択.clone()));
@@ -242,10 +236,7 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
   let 基礎選択: CreditsData = CreditsData {
     msg_prefix: "--------- ".to_string(),
     name: "基礎選択".to_string(),
-    credits_list: vec![
-      Box::new(基礎共通選択),
-      Box::new(基礎関連選択),
-    ],
+    credits_list: vec![Box::new(基礎共通選択), Box::new(基礎関連選択)],
     pattern: CreditsPattern::Top(11),
   };
   //lst.push(Box::new(基礎選択.clone()));
@@ -277,10 +268,7 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
   let 卒業 = CreditsData {
     msg_prefix: "!!!!!!!!!! ".to_string(),
     name: "全体".to_string(),
-    credits_list: vec![
-      Box::new(必修),
-      Box::new(選択),
-    ],
+    credits_list: vec![Box::new(必修), Box::new(選択)],
     pattern: CreditsPattern::Only(125),
   };
   lst.push(Box::new(卒業));
