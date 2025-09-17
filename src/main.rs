@@ -129,7 +129,12 @@ struct Args {
 fn main() -> Result<()> {
   let args = Args::parse();
 
-  let config = config::make_config_data(&args.config)?;
+  let file_name = &args.config;
+  let config = match file_name.extension().map(|s| s.to_str().unwrap()) {
+    Some("toml") => config::make_config_data_toml(file_name)?,
+    Some("csv") => config::make_config_data_csv(file_name)?,
+    _ => todo!(),
+  };
 
   match &*args.name {
     "coins22" => {

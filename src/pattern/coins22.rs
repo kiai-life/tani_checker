@@ -46,6 +46,30 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
   );
   let mut 基礎関連選択1 = CreditsInfo::new("基礎関連選択1（文系）", CreditsPattern::Bottom(6));
   let mut 基礎関連選択2 = CreditsInfo::new("基礎関連選択1（理系）", CreditsPattern::Top(4));
+
+  let re1 = Regex::new("^GB(2|3|4)0.+$").unwrap();
+  let re2 = Regex::new("^GB(2|3|4).+$").unwrap();
+  let re3 = Regex::new("^情報特別演習.+$").unwrap();
+  let re4 = Regex::new("^GB1.+$").unwrap();
+  let re5 = Regex::new("^GA1.+$").unwrap();
+  let re6 = Regex::new("^1.+$").unwrap();
+  // 必修体育
+  let re7 = Regex::new("^2[1-7]{1}.+$").unwrap();
+  // 選択体育
+  let re8 = Regex::new("^2.+$").unwrap();
+  // 必修英語（雑）
+  let re9 = Regex::new("^31.+$").unwrap();
+  // 第二外国語（雑）
+  let re10 = Regex::new("^3.+$").unwrap();
+  // 芸術
+  let re11 = Regex::new("^4.+$").unwrap();
+  // 国語
+  let re12 = Regex::new("^5.+$").unwrap();
+  // 必修情報
+  let re13 = Regex::new("^6.+$").unwrap();
+  let re21 = fancy_regex::Regex::new("^(?!(9|E|F|GC|GE|H).+$)").unwrap();
+  let re22 = Regex::new("^(E|F|GC|GE|H).+$").unwrap();
+
   for class in config.class.iter().filter(|c| c.get != Some(false)) {
     let class_name = &*class.name;
     match class_name {
@@ -84,28 +108,6 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
       "学問への誘い" => 基礎共通必修総合科目.add(class.credits),
       "ファーストイヤーセミナー" => 基礎共通必修総合科目.add(1),
       _ => {
-        let re1 = Regex::new("^GB(2|3|4)0.+$").unwrap();
-        let re2 = Regex::new("^GB(2|3|4).+$").unwrap();
-        let re3 = Regex::new("^情報特別演習.+$").unwrap();
-        let re4 = Regex::new("^GB1.+$").unwrap();
-        let re5 = Regex::new("^GA1.+$").unwrap();
-        let re6 = Regex::new("^1.+$").unwrap();
-        // 必修体育
-        let re7 = Regex::new("^2[1-7]{1}.+$").unwrap();
-        // 選択体育
-        let re8 = Regex::new("^2.+$").unwrap();
-        // 必修英語（雑）
-        let re9 = Regex::new("^31.+$").unwrap();
-        // 第二外国語（雑）
-        let re10 = Regex::new("^3.+$").unwrap();
-        // 芸術
-        let re11 = Regex::new("^4.+$").unwrap();
-        // 国語
-        let re12 = Regex::new("^5.+$").unwrap();
-        // 必修情報
-        let re13 = Regex::new("^6.+$").unwrap();
-        let re21 = fancy_regex::Regex::new("^(?!(9|E|F|GC|GE|H).+$)").unwrap();
-        let re22 = Regex::new("^(E|F|GC|GE|H).+$").unwrap();
         if re1.is_match(&class.id) {
           専門選択1.add(class.credits)
         } else if re2.is_match(&class.id) || re3.is_match(class_name) {
