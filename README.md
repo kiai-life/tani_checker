@@ -1,7 +1,7 @@
 [![Build Status][ci-badge]][ci]
 [![source badge][source-badge]][source]
 [![license badge][license-badge]][license]
-[![rust 1.56.0+ badge]][rust 1.56.0+ link]
+[![msrv badge]][msrv link]
 
 [ci]: https://github.com/kiai-life/tani_checker/actions/workflows/rust.yml
 [ci-badge]: https://github.com/kiai-life/tani_checker/actions/workflows/rust.yml/badge.svg
@@ -9,8 +9,8 @@
 [source-badge]: https://img.shields.io/badge/source-github-blue
 [license]: https://github.com/kiai-life/tani_checker/blob/master/LICENSE
 [license-badge]: https://img.shields.io/badge/license-MIT-blue
-[rust 1.56.0+ link]: https://blog.rust-lang.org/2021/10/21/Rust-1.58.1.html
-[rust 1.56.0+ badge]: https://img.shields.io/badge/rustc-1.58.1+-93450a
+[msrv link]: https://blog.rust-lang.org/2023/08/03/Rust-1.71.1
+[msrv badge]: https://img.shields.io/badge/rustc-1.71.1+-93450a
 
 # tani_checker
 
