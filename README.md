@@ -50,6 +50,26 @@ cargo install --git "https://github.com/kiai-life/tani_checker.git"
 
 # 使用方法
 
+## twinsからダウンロードしたCSVファイルを用いる場合
+
+twinsの成績ページからダウンロードページに行き、ファイル形式を「CSV」に、文字コードを「Unicode(UTF-8)」に指定してファイルをダウンロードしてください。
+
+
+このCSVファイルを使って
+
+```sh
+tani_checker --name <name> <csv file path>
+```
+
+のように起動します。
+
+`<name>`には`coins22`のような学類の名前を入れます。現在は`coins22`のみの対応です。
+
+`<csv file path>`にはダウンロードしたCSVファイルへのpathを与えます。
+
+
+## TOMLファイルを作る場合
+
 自分の履修計画を反映した以下のようなTOMLファイルを作ります。
 
 ```toml
