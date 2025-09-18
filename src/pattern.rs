@@ -92,7 +92,7 @@ impl Credits for CreditsInfo {
       self.name,
       self.credits(),
       self.all_credits(),
-      self.pattern.to_string()
+      self.pattern.to_credits_pattern_string()
     )
   }
 }
@@ -110,8 +110,8 @@ pub enum CreditsPattern {
   Bottom(usize),
 }
 
-impl ToString for CreditsPattern {
-  fn to_string(&self) -> String {
+impl CreditsPattern {
+  fn to_credits_pattern_string(self) -> String {
     match self {
       CreditsPattern::Only(n) => n.to_string(),
       CreditsPattern::Range(n, m) => {
@@ -230,7 +230,7 @@ impl Credits for CreditsData {
       self.name,
       self.credits(),
       self.all_credits(),
-      self.pattern.to_string()
+      self.pattern.to_credits_pattern_string()
     )
   }
 }
