@@ -141,6 +141,10 @@ struct Args {
   #[clap(short, long)]
   verbose: bool,
 
+  /// 履修中のものを含めず、現在の取得状況を確認する
+  #[clap(short, long)]
+  current: bool,
+
   /// ex: "coins22"
   #[clap(short, long)]
   name: String,
@@ -162,7 +166,7 @@ fn main() -> Result<()> {
 
   match &*args.name {
     "coins22" => {
-      let v = pattern::coins22::check(&config)?;
+      let v = pattern::coins22::check(&config, args.current)?;
       for c in v.iter() {
         println!("{}", &*c.msg(args.verbose))
       }

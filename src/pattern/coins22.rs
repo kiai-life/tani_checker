@@ -4,7 +4,7 @@ use anyhow::Result;
 use fancy_regex;
 use regex::Regex;
 
-pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
+pub fn check(config: &config::Config, is_current: bool) -> Result<Vec<Box<dyn Credits>>> {
   let mut 専門必修実験 = CreditsInfo::new("専門必修実験", CreditsPattern::Only(6));
   let mut 専門必修卒業研究 = CreditsInfo::new("専門必修卒業研究", CreditsPattern::Only(6));
   let mut 専門必修専門語学 = CreditsInfo::new("専門必修専門語学", CreditsPattern::Only(4));
@@ -70,7 +70,14 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
   let re21 = fancy_regex::Regex::new("^(?!(9|E|F|GC|GE|H).+$)").unwrap();
   let re22 = Regex::new("^(E|F|GC|GE|H).+$").unwrap();
 
-  for class in config.class.iter().filter(|c| c.get != Some(false)) {
+  for class in config.class.iter().filter(|c| {
+    c.get != Some(false)
+      && (if is_current {
+        c.planned != Some(true)
+      } else {
+        true
+      })
+  }) {
     let class_name = &*class.name;
     match class_name {
       "ソフトウェアサイエンス実験A" => 専門必修実験.add(3, class_name),

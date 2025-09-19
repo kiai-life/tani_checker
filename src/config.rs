@@ -16,6 +16,7 @@ pub struct Class {
   pub name: String,
   pub credits: usize,
   pub get: Option<bool>,
+  pub planned: Option<bool>,
 }
 
 pub fn make_config_data_toml(path: &Path) -> Result<Config> {
@@ -35,16 +36,28 @@ pub fn make_config_data_csv(path: &Path) -> Result<Config> {
     let credits_f = record.get(4).unwrap().trim().parse::<f64>().unwrap();
     let credits = credits_f as usize;
     let result = record.get(7).unwrap().trim().to_string();
-    let get = match result.as_str() {
-      "A+" | "A" | "B" | "C" | "P" => Some(true),
-      "D" | "F" => Some(false),
-      _ => None,
+    let mut get = None;
+    let mut planned = None;
+    match result.as_str() {
+      "A+" | "A" | "B" | "C" | "P" => {
+        get = Some(true);
+        planned = Some(false);
+      }
+      "D" | "F" => {
+        get = Some(false);
+        planned = Some(false);
+      }
+      "履修中" => {
+        planned = Some(true);
+      }
+      _ => {}
     };
     let c = Class {
       id,
       name,
       credits,
       get,
+      planned,
     };
     class.push(c);
   }
