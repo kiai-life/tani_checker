@@ -1,7 +1,7 @@
 pub mod coins22;
 
 pub trait Credits {
-  fn msg(&self) -> String;
+  fn msg(&self, is_verbose: bool) -> String;
   fn credits(&self) -> usize;
   fn all_credits(&self) -> usize;
   fn is_ok(&self) -> bool;
@@ -31,6 +31,7 @@ pub struct CreditsInfo {
   pub name: String,
   pub credits: usize,
   pub pattern: CreditsPattern,
+  class_names: Vec<(String, usize)>,
 }
 
 impl CreditsInfo {
@@ -39,11 +40,13 @@ impl CreditsInfo {
       name: name.to_string(),
       credits: 0,
       pattern: pat,
+      class_names: Vec::new(),
     }
   }
 
-  pub fn add(&mut self, n: usize) {
-    self.credits += n
+  pub fn add(&mut self, n: usize, s: &str) {
+    self.credits += n;
+    self.class_names.push((s.to_string(), n));
   }
 }
 
@@ -85,14 +88,27 @@ impl Credits for CreditsInfo {
       CreditsPattern::Bottom(n) => n <= self.credits,
     }
   }
-  fn msg(&self) -> String {
+  fn msg(&self, is_verbose: bool) -> String {
     format!(
-      "{} {}： {}({})/{}",
+      "{} {}： {}({})/{}{}",
       if self.is_ok() { '✅' } else { '❌' },
       self.name,
       self.credits(),
       self.all_credits(),
-      self.pattern.to_credits_pattern_string()
+      self.pattern.to_credits_pattern_string(),
+      if is_verbose {
+        format!(
+          "\n{}",
+          self
+            .class_names
+            .iter()
+            .map(|(s, n)| format!("{s}({n})"))
+            .collect::<Vec<String>>()
+            .join(", ")
+        )
+      } else {
+        String::new()
+      }
     )
   }
 }
@@ -132,6 +148,7 @@ impl CreditsPattern {
 pub struct CreditsPE {
   pub name: String,
   pub credits: usize,
+  class_names: Vec<String>,
 }
 
 impl CreditsPE {
@@ -139,6 +156,7 @@ impl CreditsPE {
     CreditsPE {
       name: name.to_string(),
       credits: 0,
+      class_names: Vec::new(),
     }
   }
   fn get(&mut self) {
@@ -160,12 +178,25 @@ impl Credits for CreditsPE {
   fn is_ok(&self) -> bool {
     self.credits == 2
   }
-  fn msg(&self) -> String {
+  fn msg(&self, is_verbose: bool) -> String {
     format!(
-      "{} {}：{}/1",
+      "{} {}：{}/1{}",
       if self.is_ok() { '✅' } else { '❌' },
       self.name,
-      self.credits()
+      self.credits(),
+      if is_verbose {
+        format!(
+          "\n{}",
+          self
+            .class_names
+            .iter()
+            .map(|s| format!("{s}(0.5)"))
+            .collect::<Vec<String>>()
+            .join(", ")
+        )
+      } else {
+        String::new()
+      }
     )
   }
 }
@@ -222,7 +253,7 @@ impl Credits for CreditsData {
     is_ok && b
   }
 
-  fn msg(&self) -> String {
+  fn msg(&self, _is_verbose: bool) -> String {
     format!(
       "{}{} {}： {}({})/{}",
       self.msg_prefix,

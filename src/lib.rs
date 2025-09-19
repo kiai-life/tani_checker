@@ -24,6 +24,6 @@ pub fn tani(config: &str) {
 
   let v = pattern::coins22::check(&config).unwrap();
   for c in v.iter() {
-    log(&c.msg());
+    log(&c.msg(false));
   }
 }
