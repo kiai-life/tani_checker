@@ -124,4 +124,4 @@ This package released under [the MIT license](https://github.com/kiai-life/tani_
 
 ---
 
-(c) 2022 Naoki Kaneko (a.k.a. "puripuri2100")
+(c) 2022 Naoki Kitano(Kaneko) (a.k.a. "puripuri2100")

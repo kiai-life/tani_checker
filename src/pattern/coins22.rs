@@ -73,51 +73,51 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
   for class in config.class.iter().filter(|c| c.get != Some(false)) {
     let class_name = &*class.name;
     match class_name {
-      "ソフトウェアサイエンス実験A" => 専門必修実験.add(3),
-      "ソフトウェアサイエンス実験B" => 専門必修実験.add(3),
-      "情報システム実験A" => 専門必修実験.add(3),
-      "情報システム実験B" => 専門必修実験.add(3),
-      "知能情報メディア実験A" => 専門必修実験.add(3),
-      "知能情報メディア実験B" => 専門必修実験.add(3),
-      "卒業研究A" => 専門必修卒業研究.add(3),
-      "卒業研究B" => 専門必修卒業研究.add(3),
-      "専門語学A" => 専門必修専門語学.add(2),
-      "専門語学B" => 専門必修専門語学.add(2),
-      "情報科学特別演習" => 専門選択2.add(class.credits),
-      "線形代数A" => 専門基礎必修.add(2),
-      "線形代数B" => 専門基礎必修.add(2),
-      "微分積分A" => 専門基礎必修.add(2),
-      "微分積分B" => 専門基礎必修.add(2),
-      "情報数学A" => 専門基礎必修.add(2),
-      "専門英語基礎" => 専門基礎必修.add(1),
-      "プログラミング入門A" => 専門基礎必修.add(2),
-      "プログラミング入門B" => 専門基礎必修.add(1),
-      "コンピュータとプログラミング" => 専門基礎必修.add(3),
-      "データ構造とアルゴリズム" => 専門基礎必修.add(3),
-      "データ構造とアルゴリズム実験" => 専門基礎必修.add(2),
-      "論理回路" => 専門基礎必修.add(2),
-      "論理回路演習" => 専門基礎必修.add(2),
-      "確率論" => 専門基礎選択1.add(class.credits),
-      "統計学" => 専門基礎選択1.add(class.credits),
-      "数値計算法" => 専門基礎選択1.add(class.credits),
-      "論理と形式化" => 専門基礎選択1.add(class.credits),
-      "論理システム" => 専門基礎選択1.add(class.credits),
-      "論理システム演習" => 専門基礎選択1.add(class.credits),
-      "Computer Science in English A" => 専門基礎選択2.add(class.credits),
-      "Computer Science in English B" => 専門基礎選択2.add(class.credits),
-      "学問への誘い" => 基礎共通必修総合科目.add(class.credits),
-      "ファーストイヤーセミナー" => 基礎共通必修総合科目.add(1),
+      "ソフトウェアサイエンス実験A" => 専門必修実験.add(3, class_name),
+      "ソフトウェアサイエンス実験B" => 専門必修実験.add(3, class_name),
+      "情報システム実験A" => 専門必修実験.add(3, class_name),
+      "情報システム実験B" => 専門必修実験.add(3, class_name),
+      "知能情報メディア実験A" => 専門必修実験.add(3, class_name),
+      "知能情報メディア実験B" => 専門必修実験.add(3, class_name),
+      "卒業研究A" => 専門必修卒業研究.add(3, class_name),
+      "卒業研究B" => 専門必修卒業研究.add(3, class_name),
+      "専門語学A" => 専門必修専門語学.add(2, class_name),
+      "専門語学B" => 専門必修専門語学.add(2, class_name),
+      "情報科学特別演習" => 専門選択2.add(class.credits, class_name),
+      "線形代数A" => 専門基礎必修.add(2, class_name),
+      "線形代数B" => 専門基礎必修.add(2, class_name),
+      "微分積分A" => 専門基礎必修.add(2, class_name),
+      "微分積分B" => 専門基礎必修.add(2, class_name),
+      "情報数学A" => 専門基礎必修.add(2, class_name),
+      "専門英語基礎" => 専門基礎必修.add(1, class_name),
+      "プログラミング入門A" => 専門基礎必修.add(2, class_name),
+      "プログラミング入門B" => 専門基礎必修.add(1, class_name),
+      "コンピュータとプログラミング" => 専門基礎必修.add(3, class_name),
+      "データ構造とアルゴリズム" => 専門基礎必修.add(3, class_name),
+      "データ構造とアルゴリズム実験" => 専門基礎必修.add(2, class_name),
+      "論理回路" => 専門基礎必修.add(2, class_name),
+      "論理回路演習" => 専門基礎必修.add(2, class_name),
+      "確率論" => 専門基礎選択1.add(class.credits, class_name),
+      "統計学" => 専門基礎選択1.add(class.credits, class_name),
+      "数値計算法" => 専門基礎選択1.add(class.credits, class_name),
+      "論理と形式化" => 専門基礎選択1.add(class.credits, class_name),
+      "論理システム" => 専門基礎選択1.add(class.credits, class_name),
+      "論理システム演習" => 専門基礎選択1.add(class.credits, class_name),
+      "Computer Science in English A" => 専門基礎選択2.add(class.credits, class_name),
+      "Computer Science in English B" => 専門基礎選択2.add(class.credits, class_name),
+      "学問への誘い" => 基礎共通必修総合科目.add(class.credits, class_name),
+      "ファーストイヤーセミナー" => 基礎共通必修総合科目.add(1, class_name),
       _ => {
         if re1.is_match(&class.id) {
-          専門選択1.add(class.credits)
+          専門選択1.add(class.credits, class_name)
         } else if re2.is_match(&class.id) || re3.is_match(class_name) {
-          専門選択2.add(class.credits)
+          専門選択2.add(class.credits, class_name)
         } else if re4.is_match(&class.id) {
-          専門基礎選択3.add(class.credits)
+          専門基礎選択3.add(class.credits, class_name)
         } else if re5.is_match(&class.id) {
-          専門基礎選択4.add(class.credits)
+          専門基礎選択4.add(class.credits, class_name)
         } else if re6.is_match(&class.id) {
-          基礎共通選択1.add(class.credits)
+          基礎共通選択1.add(class.credits, class_name)
         } else if re7.is_match(&class.id) {
           if class.name.starts_with('基') {
             基礎体育.get()
@@ -126,17 +126,17 @@ pub fn check(config: &config::Config) -> Result<Vec<Box<dyn Credits>>> {
             応用体育.get()
           }
         } else if re8.is_match(&class.id) {
-          基礎共通選択2.add(class.credits)
+          基礎共通選択2.add(class.credits, class_name)
         } else if re9.is_match(&class.id) {
-          基礎共通必修外国語.add(class.credits)
+          基礎共通必修外国語.add(class.credits, class_name)
         } else if re10.is_match(&class.id) || re11.is_match(&class.id) || re12.is_match(&class.id) {
-          基礎共通選択2.add(class.credits)
+          基礎共通選択2.add(class.credits, class_name)
         } else if re13.is_match(&class.id) {
-          基礎共通必修情報.add(class.credits)
+          基礎共通必修情報.add(class.credits, class_name)
         } else if re21.is_match(&class.id)? {
-          基礎関連選択1.add(class.credits)
+          基礎関連選択1.add(class.credits, class_name)
         } else if re22.is_match(&class.id) {
-          基礎関連選択2.add(class.credits)
+          基礎関連選択2.add(class.credits, class_name)
         }
       }
     }

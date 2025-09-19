@@ -1,7 +1,7 @@
 //! [![Build Status][ci-badge]][ci]
 //! [![source badge][source-badge]][source]
 //! [![license badge][license-badge]][license]
-//! [![rust 1.56.0+ badge]][rust 1.56.0+ link]
+//! [![msrv badge]][msrv link]
 //!
 //! [ci]: https://github.com/kiai-life/tani_checker/actions/workflows/rust.yml
 //! [ci-badge]: https://github.com/kiai-life/tani_checker/actions/workflows/rust.yml/badge.svg
@@ -9,8 +9,8 @@
 //! [source-badge]: https://img.shields.io/badge/source-github-blue
 //! [license]: https://github.com/kiai-life/tani_checker/blob/master/LICENSE
 //! [license-badge]: https://img.shields.io/badge/license-MIT-blue
-//! [rust 1.56.0+ link]: https://blog.rust-lang.org/2021/10/21/Rust-1.58.1.html
-//! [rust 1.56.0+ badge]: https://img.shields.io/badge/rustc-1.58.1+-93450a
+//! [msrv link]: https://blog.rust-lang.org/2023/08/03/Rust-1.71.1
+//! [msrv badge]: https://img.shields.io/badge/rustc-1.71.1+-93450a
 //!
 //! # tani_checker
 //!
@@ -49,6 +49,26 @@
 //!
 //!
 //! # 使用方法
+//!
+//! ## twinsからダウンロードしたCSVファイルを用いる場合
+//!
+//! twinsの成績ページからダウンロードページに行き、ファイル形式を「CSV」に、文字コードを「Unicode(UTF-8)」に指定してファイルをダウンロードしてくだ//! さい。
+//!
+//!
+//! このCSVファイルを使って
+//!
+//! ```sh
+//! tani_checker --name <name> <csv file path>
+//! ```
+//!
+//! のように起動します。
+//!
+//! `<name>`には`coins22`のような学類の名前を入れます。現在は`coins22`のみの対応です。
+//!
+//! `<csv file path>`にはダウンロードしたCSVファイルへのpathを与えます。
+//!
+//!
+//! ## TOMLファイルを作る場合
 //!
 //! 自分の履修計画を反映した以下のようなTOMLファイルを作ります。
 //!
@@ -104,7 +124,7 @@
 //!
 //! ---
 //!
-//! (c) 2022 Naoki Kaneko (a.k.a. "puripuri2100")
+//! (c) 2022 Naoki Kitano(Kaneko) (a.k.a. "puripuri2100")
 //!
 
 use anyhow::Result;
@@ -117,6 +137,10 @@ pub mod pattern;
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
 struct Args {
+  /// 科目名まで出力するようにする
+  #[clap(short, long)]
+  verbose: bool,
+
   /// ex: "coins22"
   #[clap(short, long)]
   name: String,
@@ -140,7 +164,7 @@ fn main() -> Result<()> {
     "coins22" => {
       let v = pattern::coins22::check(&config)?;
       for c in v.iter() {
-        println!("{}", &*c.msg())
+        println!("{}", &*c.msg(args.verbose))
       }
       Ok(())
     }
